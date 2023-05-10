@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer base {
+  h1 {
+    @apply font-primary text-2xl font-bold md:text-5xl;
+  }
+
+  h2 {
+    @apply font-primary text-xl font-bold md:text-3xl;
+  }
+
+  h3 {
+    @apply font-primary text-lg font-bold md:text-2xl;
+  }
+
+  h4 {
+    @apply font-primary text-base font-bold md:text-lg;
+  }
+
+  p {
+    @apply font-primary text-base leading-relaxed;
+  }
+
+  body {
+    @apply font-primary text-sm md:text-base;
+  }
+}
+
+@layer components {
+  .home_hero_overlay {
+    @apply absolute inset-0 h-full;
+
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.822), rgba(0, 0, 0, 0.322));
+  }
+}
