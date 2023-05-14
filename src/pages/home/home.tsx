@@ -14,7 +14,7 @@ const Hero = ({ movie }: { movie: Movie }) => {
           <div className="home_hero_overlay" />
           <Container>
             <div className="flex items-center h-full w-full relative z-40 text-white">
-              <div className="md:w-2/4">
+              <div className="md:w-3/4">
                 <h1 className="mb-4">{movie.title}</h1>
                 <p>{movie.overview}</p>
               </div>
@@ -51,16 +51,21 @@ export const Home = () => {
     <main>
       {movies[0] && <Hero movie={movies[1]} />}
       <Container>
-        <section className="mt-8 grid md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-1 justify-center">
+        <section className="mt-8 gap-8 grid xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 xs:grid-cols-2">
           {
             movies?.map((movie) => (
-              <article key={movie.id}>
-                <img src={`${IMAGE_BASE_URL}${movie.poster_path}`} alt="movie" />
-                <h3>{movie.title}</h3>
+              <article key={movie.id} className="rounded-lg overflow-hidden block float-left">
+                <img src={`${IMAGE_BASE_URL}${movie.poster_path}`} alt="movie" className="rounded-xl hover:-translate-y-2 transition-transform object-cover cursor-pointer" />
+                <h5 className="pt-2 font-medium truncate">{movie.title}</h5>
+                <div className="flex justify-between pt-[.5px]">
+                  <small>{new Date(movie.release_date).getFullYear() || '-'}</small>
+                  <small className="rounded-sm border-[1px] px-2 py-[0.1px]">{movie.media_type}</small>
+                </div>
               </article>
             ))
           }
         </section>
+        <input type="text" onChange={handleSearchChange} />
       </Container>
     </main>
   )

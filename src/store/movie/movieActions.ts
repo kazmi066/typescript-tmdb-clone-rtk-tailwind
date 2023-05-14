@@ -16,7 +16,8 @@ export const fetchTrendingMovies = createAsyncThunk('/movies/list', async(
     const movies = response.data.results.map((movie: Movie) => ({
       ...movie,
       backdrop_path: movie.backdrop_path ? IMAGE_BASE_URL + "/w1280" + movie.backdrop_path : null,
-      poster_path: movie.poster_path ? IMAGE_BASE_URL + "/w342" + movie.poster_path : null
+      poster_path: movie.poster_path ? IMAGE_BASE_URL + "/w342" + movie.poster_path : null,
+      title: movie.title || movie.name
     }));
 
     return movies as Movie[];

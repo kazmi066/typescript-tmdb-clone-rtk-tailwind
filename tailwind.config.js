@@ -11,6 +11,9 @@ export default {
       fontFamily: {
         primary: ['Roboto', ...fontFamily.sans],
       },
+      screens: {
+        xs: "300px"
+      }
     },
   },
   plugins: [],
