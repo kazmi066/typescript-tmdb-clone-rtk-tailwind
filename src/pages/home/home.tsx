@@ -5,15 +5,22 @@ import { fetchTrendingMovies } from "../../store/movie/movieActions";
 import { IMAGE_BASE_URL } from "../../data/endpoints";
 import { Movie } from "../../store/movie/interfaces";
 import { Container } from "../../components/container";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const Hero = ({ movie }: { movie: Movie }) => {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 600], [0, 300]);
+
   return (
     <section>
       {
-        movie && <div className="relative h-[70vh] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${movie.backdrop_path})` }}>
-          <div className="home_hero_overlay" />
+        movie && <div className="relative h-[70vh] overflow-hidden">
+          <motion.div style={{ y }} className="-z-50 absolute top-0 left-0 w-full h-full">
+            <img src={movie.backdrop_path} alt="movie" className="object-cover w-full h-full" />
+            <div className="home_hero_overlay" />
+          </motion.div>
           <Container>
-            <div className="flex items-center h-full w-full relative z-40 text-white">
+            <div className="flex items-center h-full w-full relative text-white">
               <div className="md:w-3/4">
                 <h1 className="mb-4">{movie.title}</h1>
                 <p>{movie.overview}</p>
@@ -51,7 +58,7 @@ export const Home = () => {
     <main>
       {movies[0] && <Hero movie={movies[1]} />}
       <Container>
-        <section className="mt-8 gap-8 grid xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 xs:grid-cols-2">
+        <section className="mt-8 gap-4 grid xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 xs:grid-cols-2">
           {
             movies?.map((movie) => (
               <article key={movie.id} className="rounded-lg overflow-hidden block float-left">
