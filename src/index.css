@@ -38,6 +38,6 @@
   .home_hero_overlay {
     @apply absolute inset-0 h-full;
 
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.822), rgba(0, 0, 0, 0.322));
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.973), rgba(0, 0, 0, 0.322));
   }
 }
