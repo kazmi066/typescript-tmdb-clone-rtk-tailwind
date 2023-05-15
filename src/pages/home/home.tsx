@@ -6,6 +6,8 @@ import { IMAGE_BASE_URL } from "../../data/endpoints";
 import { Movie } from "../../store/movie/interfaces";
 import { Container } from "../../components/container";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Button } from "../../components/button/button";
+import { Link } from "react-router-dom";
 
 const Hero = ({ movie }: { movie: Movie }) => {
   const { scrollY } = useScroll();
@@ -22,8 +24,14 @@ const Hero = ({ movie }: { movie: Movie }) => {
           <Container>
             <div className="flex items-center h-full w-full relative text-white">
               <div className="md:w-3/4">
-                <h1 className="mb-4">{movie.title}</h1>
-                <p>{movie.overview}</p>
+                <h1 className="mb-2 md:text-6xl text-4xl">{movie.title}</h1>
+                <p className="md:text-xl">{movie.overview}</p>
+                <div className="flex gap-4 mt-10 items-center">
+                  <Button text="Watch Trailer" variant="rainbow" />
+                  <Link to="www.google.com">
+                    <Button text="Learn More" variant="secondary" />
+                  </Link>
+                </div>
               </div>
             </div>
           </Container>
@@ -56,7 +64,7 @@ export const Home = () => {
 
   return (
     <main>
-      {movies[0] && <Hero movie={movies[1]} />}
+      {movies[0] && <Hero movie={movies[0]} />}
       <Container>
         <section className="mt-8 gap-4 grid xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 xs:grid-cols-2">
           {
