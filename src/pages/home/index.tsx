@@ -6,16 +6,22 @@ import { Container } from "../../components/container";
 import { HeroSection } from "./components/heroSection";
 import { Spinner } from "../../components/spinner";
 import { MoviesList } from "./components/moviesList";
+import { motion } from "framer-motion";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [isInitialRender, setIsInitialRender] = useState(true); 
   const { loading, error, movies } = useSelector((state: RootState) => state.movie);
 
   useEffect(() => {
-    dispatch(fetchTrendingMovies({ page: page, searchTerm: searchQuery }));
-  }, [dispatch, searchQuery, page]);
+    if (isInitialRender) {
+      setIsInitialRender(false);
+    } else {
+      dispatch(fetchTrendingMovies({ page: page, searchTerm: searchQuery }));
+    }
+  }, [dispatch, isInitialRender, page, searchQuery]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -25,7 +31,7 @@ export const Home = () => {
     setPage(prevPage => prevPage + 1);
   }
 
-  if (loading) {
+  if (loading && isInitialRender) {
     return <div className="mt-[50vh] flex items-center justify-center">
       <Spinner />
     </div>
@@ -36,8 +42,12 @@ export const Home = () => {
   }
 
   return (
-    <main>
-      {movies[0] && <HeroSection movie={movies[2]} />}
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}>
+      {movies[0] && <HeroSection movie={movies[3]} />}
       <Container>
         <MoviesList
           movies={movies}
@@ -46,6 +56,6 @@ export const Home = () => {
         />
         <input type="text" onChange={handleSearchChange} />
       </Container>
-    </main>
+    </motion.main>
   )
 }

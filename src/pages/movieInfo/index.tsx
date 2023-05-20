@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Spinner } from "../../components/spinner";
 import { Container } from "../../components/container";
 import RatingStar from '../../assets/ratingStar.svg';
+import { motion } from "framer-motion";
 import { formatDate } from "../../utils/helpers";
 
 export const MovieInfo = () => {
@@ -32,7 +33,11 @@ export const MovieInfo = () => {
   }
 
   return (
-    <main>
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: .5 }}>
       {
         movie
         && <article>
@@ -98,6 +103,6 @@ export const MovieInfo = () => {
           </Container>
         </article>
       }
-    </main>
+    </motion.main>
   )
 }
