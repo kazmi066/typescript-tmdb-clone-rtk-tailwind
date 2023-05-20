@@ -3,6 +3,7 @@ import { Movie } from "../../../store/movie/interfaces";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Container } from "../../../components/container";
 import { Button } from "../../../components/button/button";
+import { formatDate } from "../../../utils/helpers";
 
 const HeroSection = ({ movie }: { movie: Movie }) => {
   const navigate = useNavigate();
@@ -22,7 +23,11 @@ const HeroSection = ({ movie }: { movie: Movie }) => {
               <div className="md:w-3/4">
                 <h1 className="mb-2 md:text-6xl text-4xl">{movie.title}</h1>
                 <p className="md:text-xl">{movie.overview}</p>
-                <div className="flex gap-4 mt-10 items-center">
+                <div className="mt-5">
+                  <b>Release Date: </b>
+                  {movie.release_date ? formatDate(movie.release_date) : '------'}
+                </div>
+                <div className="flex gap-4 mt-8 items-center">
                   <Button text="Watch Trailer" variant="rainbow" />
                   <Button text="Learn More" variant="secondary" onClick={() => navigate(`/movie/${movie.id}`)} />
                 </div>

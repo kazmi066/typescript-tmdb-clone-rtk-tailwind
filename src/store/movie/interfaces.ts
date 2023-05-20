@@ -15,4 +15,28 @@ export interface Movie {
   vote_count: number,
   media_type: string,
   name: string,
+  genres: { id: number; name: string }[],
+  homepage: string,
+  languages: string[],
+  networks: object[],
+  seasons: object[],
+  spoken_languages: { english_name: string, iso_639_1: string, name: string }[],
+  status: string,
+  tagline: string,
+  type: string
+}
+
+export interface Actor {
+  adult: boolean,
+  gender: number,
+  id: number,
+  known_for_department: string,
+  name: string,
+  original_name: string,
+  popularity: number,
+  profile_path: string,
+  cast_id: number,
+  character: string,
+  credit_id: string,
+  order: number
 }

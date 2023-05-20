@@ -1,19 +1,21 @@
-import { EmptyObject, createSlice } from '@reduxjs/toolkit';
-import { fetchMovieInfo, fetchTrendingMovies } from './movieActions';
-import { Movie } from './interfaces';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchMovieActors, fetchMovieInfo, fetchTrendingMovies } from './movieActions';
+import { Actor, Movie } from './interfaces';
 
 interface InitialState {
   loading: boolean,
   error: string,
   movies: Movie[],
-  movie: Partial<Movie>
+  movie: Partial<Movie>,
+  actors: Actor[]
 } 
 
 const initialState: InitialState = {
   loading: false,
   error: '',
   movies: [],
-  movie: {}
+  movie: {},
+  actors: []
 }
 
 const movieSlice = createSlice({
@@ -27,7 +29,7 @@ const movieSlice = createSlice({
       })
       .addCase(fetchTrendingMovies.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.movies = payload as Movie[];
+        state.movies = state.movies.concat(payload as Movie[]);
       })
       .addCase(fetchTrendingMovies.rejected, (state, action) => {
         state.loading = false;
@@ -42,6 +44,18 @@ const movieSlice = createSlice({
         state.movie = payload;
       })
       .addCase(fetchMovieInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || '';
+      })
+    builder
+      .addCase(fetchMovieActors.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMovieActors.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.actors = payload;
+      })
+      .addCase(fetchMovieActors.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || '';
       })

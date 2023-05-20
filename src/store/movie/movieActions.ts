@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../../utils/axiosClient";
 import { API_BASE_URL, API_KEY, IMAGE_BASE_URL, TRENDING_BASE_URL } from "../../data/endpoints";
-import { Movie } from "./interfaces";
+import { Actor, Movie } from "./interfaces";
 
 export const fetchTrendingMovies = createAsyncThunk('/movies/list', async(
-  { page, searchTerm }: { page: number, searchTerm: string }, { rejectWithValue }
+  { page, searchTerm = "" }: { page: number, searchTerm?: string }, { rejectWithValue }
 ) => {
   try {
     const response = await axiosClient.get(
@@ -40,6 +40,26 @@ export const fetchMovieInfo = createAsyncThunk('/movie/info', async(
     };
 
     return movieInfo as Movie;
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
+
+export const fetchMovieActors = createAsyncThunk('/movie/actors', async(
+  { id, type }: { id: number, type: string }, { rejectWithValue }
+) => {
+  try {
+    const response = await axiosClient.get(`${API_BASE_URL}/${type}/${id}/credits?api_key=${API_KEY}`);
+    let actors = [];
+
+		if (response.data) {
+			actors = response.data.cast.map((actor: Actor) => ({
+				...actor,
+				profile_path: actor.profile_path ? IMAGE_BASE_URL + "/w185" + actor.profile_path : "https://www.tgv.com.my/assets/images/404/movie-poster.jpg",
+			}))
+		}
+
+    return actors;
   } catch (error) {
     return rejectWithValue(error);
   }
