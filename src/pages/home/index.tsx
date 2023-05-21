@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RootState, useAppDispatch } from "../../store";
 import { useSelector } from "react-redux";
 import { fetchTrendingMovies } from "../../store/movie/movieActions";

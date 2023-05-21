@@ -10,7 +10,7 @@ interface MoviesListProps {
   hasMore?: boolean
 }
 
-export const MoviesList = ({ movies, loadMore, loading, hasMore } : MoviesListProps) => {
+export const MoviesList = ({ movies, loadMore, loading } : MoviesListProps) => {
   return (
     <div className="pt-14 pb-24">
       <section className="mt-0 gap-x-4 gap-y-10 grid xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 xs:grid-cols-2 pb-14">
