@@ -6,8 +6,15 @@ import { useSelector } from "react-redux";
 import { Spinner } from "../../components/spinner";
 import { Container } from "../../components/container";
 import RatingStar from '../../assets/ratingStar.svg';
-import { motion } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 import { formatDate } from "../../utils/helpers";
+import { ActorCard } from "../home/components/actorCard";
+
+const variants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 }
+}
 
 export const MovieInfo = () => {
   const dispatch = useAppDispatch();
@@ -33,11 +40,7 @@ export const MovieInfo = () => {
   }
 
   return (
-    <motion.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: .5 }}>
+    <motion.main initial="hidden" animate="visible" exit="exit" transition= {{ duration: 1 }} variants={variants}>
       {
         movie
         && <article>
@@ -88,13 +91,8 @@ export const MovieInfo = () => {
               <div className="flex items-center gap-4 flex-wrap">
                 {
                   actors.map((actor) => (
-                    <div className="m-2 w-44 cursor-pointer hover:opacity-90" key={actor.id}>
-                      <div className="relative text-center w-full h-full bg-true-gray-400 dark:bg-dark-800 rounded-2xl overflow-hidden shadow-md">
-                        <img className="w-full h-full object-cover" src={actor.profile_path} alt={`poster for ${actor.character}`} />
-                        <h4 className="absolute bottom-0 w-full text-white backdrop-filter backdrop-brightness-50 backdrop-blur-sm p-1">
-                          {actor.original_name} ({actor.character})
-                        </h4>
-                      </div>
+                    <div key={actor.id}>
+                      <ActorCard actor={actor} />
                     </div>
                   ))
                 }

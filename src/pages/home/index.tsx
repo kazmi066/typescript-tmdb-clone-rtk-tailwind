@@ -6,7 +6,15 @@ import { Container } from "../../components/container";
 import { HeroSection } from "./components/heroSection";
 import { Spinner } from "../../components/spinner";
 import { MoviesList } from "./components/moviesList";
-import { motion } from "framer-motion";
+import { Variants, motion } from "framer-motion";
+import { SearchBar } from "./components/searchBar";
+import { clearMovies } from "../../store/movie/movieSlice";
+
+const variants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 }
+}
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -18,14 +26,15 @@ export const Home = () => {
   useEffect(() => {
     if (isInitialRender) {
       setIsInitialRender(false);
+      dispatch(clearMovies());
     } else {
+      if (searchQuery && page <= 1) {
+        dispatch(clearMovies());
+      }
+
       dispatch(fetchTrendingMovies({ page: page, searchTerm: searchQuery }));
     }
   }, [dispatch, isInitialRender, page, searchQuery]);
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  }
 
   const handlePagination = () => {
     setPage(prevPage => prevPage + 1);
@@ -42,19 +51,15 @@ export const Home = () => {
   }
 
   return (
-    <motion.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}>
+    <motion.main initial="hidden" animate="visible" exit="exit" transition= {{ duration: 1 }} variants={variants}>
       {movies[0] && <HeroSection movie={movies[3]} />}
       <Container>
+        <SearchBar setSearch={setSearchQuery} />
         <MoviesList
           movies={movies}
           loading={loading}
           loadMore={handlePagination}
         />
-        <input type="text" onChange={handleSearchChange} />
       </Container>
     </motion.main>
   )

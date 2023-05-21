@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../../utils/axiosClient";
-import { API_BASE_URL, API_KEY, IMAGE_BASE_URL, TRENDING_BASE_URL } from "../../data/endpoints";
+import { API_BASE_URL, API_KEY, IMAGE_BASE_URL, SEARCH_BASE_URL, TRENDING_BASE_URL } from "../../data/endpoints";
 import { Actor, Movie } from "./interfaces";
 
 export const fetchTrendingMovies = createAsyncThunk('/movies/list', async(
@@ -9,7 +9,7 @@ export const fetchTrendingMovies = createAsyncThunk('/movies/list', async(
   try {
     const response = await axiosClient.get(
       searchTerm
-        ? `${TRENDING_BASE_URL}&query=${searchTerm}&page=${page}`
+        ? `${SEARCH_BASE_URL}&query=${searchTerm}&page=${page}`
         : `${TRENDING_BASE_URL}&page=${page}`
     );
 
